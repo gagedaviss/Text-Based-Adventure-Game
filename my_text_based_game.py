@@ -38,7 +38,8 @@ def main():
     "Alchemist Lab" : {"east": "Forbidden Library", "south": "Abandoned Armory", "item": "Healing Potion"},
     "Forbidden Library": {"east": "Ruined Chapel", "west": "Alchemist Lab", "item": "Spellbook"},
     "Ruined Chapel": {"south": "Dark Wizard Sanctum", "west": "Forbidden Library", "item": "Holy Relic"},
-    "Dark Wizard Sanctum": {"west": "Guard Tower", "north": "Ruined Chapel", "item": "Dark Wizard"}
+    "Dark Wizard Sanctum": {"west": "Guard Tower", "north": "Ruined Chapel", "item": "Dark Wizard"},
+    "Guard Tower" : {"south": "Dungeon", "east": "Dark Wazard Sanctum", "item": "Shield"}
     }
 
     # TODO: Set the player's starting room.
@@ -90,10 +91,27 @@ def main():
         elif len(direction) == 2 and direction[0] in command_list and direction[-1] in command_list:
             print("Please only enter one move command (Ex. go south or south)")
 
-    #IF all checks pass update the current room 
+    #IF all checks pass update the current room and check if an item exists
         else:
             if direction[-1] in rooms[current_room]:
-                current_room = rooms[current_room][direction[-1]]
+                current_room = rooms[current_room][direction[-1]]    
+        #if user tries a direction that isn't possible notify the user
+            else:
+                print("You can't go that direction from this room.")
 
-            
-            
+        if "item" in rooms[current_room]:
+            print(f"Get {rooms[current_room]["item"]} by typing 'get {rooms[current_room]["item"]}' ")
+            get_command = input("Enter the item name to add it to your inventory: ")
+            if any(item in get_command for item in rooms[current_room].values()):
+                inventory.append(get_command)
+            else: 
+                print("thats not the item in this room..")
+        else: 
+            pass
+        
+        
+    
+
+
+if __name__ == "__main__":
+    main()
